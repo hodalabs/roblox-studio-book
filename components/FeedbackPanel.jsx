@@ -9,6 +9,7 @@ import { supabase, FEEDBACK_TABLE } from "@/lib/supabase";
 export default function FeedbackPanel({ slug, challengeNumber, challengeTitle }) {
   const [content, setContent] = useState("");
   const [status, setStatus] = useState("loading"); // loading | saved | saving | error | offline
+  const [errorMsg, setErrorMsg] = useState("");
   const debounceRef = useRef(null);
   const initialLoad = useRef(true);
 
@@ -16,25 +17,37 @@ export default function FeedbackPanel({ slug, challengeNumber, challengeTitle })
   useEffect(() => {
     if (!supabase) {
       setStatus("offline");
+      setErrorMsg("Supabase env vars missing.");
       initialLoad.current = false;
       return;
     }
+    if (!slug) return;
     let cancelled = false;
     (async () => {
-      const { data, error } = await supabase
-        .from(FEEDBACK_TABLE)
-        .select("content")
-        .eq("challenge_slug", slug)
-        .maybeSingle();
-      if (cancelled) return;
-      if (error) {
-        console.error(error);
+      try {
+        const { data, error } = await supabase
+          .from(FEEDBACK_TABLE)
+          .select("content")
+          .eq("challenge_slug", slug)
+          .maybeSingle();
+        if (cancelled) return;
+        if (error) {
+          console.error("[Feedback] load:", error);
+          setStatus("error");
+          setErrorMsg(formatError(error));
+        } else {
+          setContent(data?.content || "");
+          setStatus("saved");
+          setErrorMsg("");
+        }
+      } catch (e) {
+        if (cancelled) return;
+        console.error("[Feedback] load threw:", e);
         setStatus("error");
-      } else {
-        setContent(data?.content || "");
-        setStatus("saved");
+        setErrorMsg(e?.message || String(e));
+      } finally {
+        initialLoad.current = false;
       }
-      initialLoad.current = false;
     })();
     return () => {
       cancelled = true;
@@ -45,25 +58,34 @@ export default function FeedbackPanel({ slug, challengeNumber, challengeTitle })
   useEffect(() => {
     if (!supabase) return;
     if (initialLoad.current) return;
+    if (!slug) return;
     if (debounceRef.current) clearTimeout(debounceRef.current);
     setStatus("saving");
     debounceRef.current = setTimeout(async () => {
-      const { error } = await supabase
-        .from(FEEDBACK_TABLE)
-        .upsert(
-          {
-            challenge_slug: slug,
-            content,
-            reviewer: "jay",
-            updated_at: new Date().toISOString(),
-          },
-          { onConflict: "challenge_slug" },
-        );
-      if (error) {
-        console.error(error);
+      try {
+        const { error } = await supabase
+          .from(FEEDBACK_TABLE)
+          .upsert(
+            {
+              challenge_slug: slug,
+              content,
+              reviewer: "jay",
+              updated_at: new Date().toISOString(),
+            },
+            { onConflict: "challenge_slug" },
+          );
+        if (error) {
+          console.error("[Feedback] save:", error);
+          setStatus("error");
+          setErrorMsg(formatError(error));
+        } else {
+          setStatus("saved");
+          setErrorMsg("");
+        }
+      } catch (e) {
+        console.error("[Feedback] save threw:", e);
         setStatus("error");
-      } else {
-        setStatus("saved");
+        setErrorMsg(e?.message || String(e));
       }
     }, 600);
     return () => clearTimeout(debounceRef.current);
@@ -82,6 +104,11 @@ export default function FeedbackPanel({ slug, challengeNumber, challengeTitle })
         <p className="text-xs text-neutral-400 mb-2 italic">
           Level {String(challengeNumber).padStart(2, "0")} — {challengeTitle}
         </p>
+        {status === "error" && errorMsg && (
+          <div className="mb-2 p-2 rounded-lg bg-orange-50 border border-orange-200 text-xs text-orange-800">
+            {errorMsg}
+          </div>
+        )}
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
@@ -94,13 +121,21 @@ export default function FeedbackPanel({ slug, challengeNumber, challengeTitle })
   );
 }
 
+function formatError(e) {
+  if (!e) return "";
+  if (e.code === "PGRST205") {
+    return "Supabase table not visible to API yet. Try restarting the API in Supabase dashboard, or wait a minute.";
+  }
+  return e.message || e.code || JSON.stringify(e);
+}
+
 function StatusIndicator({ status }) {
   const map = {
     loading: { text: "Loading…", color: "rgba(255,255,255,0.7)" },
     saving: { text: "Saving…", color: "rgba(255,255,255,0.7)" },
     saved: { text: "Saved ✓", color: "rgba(255,255,255,0.95)" },
-    error: { text: "Error — check console", color: "#ffd6c2" },
-    offline: { text: "Supabase not configured", color: "#ffd6c2" },
+    error: { text: "Error", color: "#ffd6c2" },
+    offline: { text: "Offline", color: "#ffd6c2" },
   };
   const s = map[status] || map.saved;
   return (
