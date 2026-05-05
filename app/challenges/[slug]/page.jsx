@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { challenges, getChallenge } from "@/content/challenges";
 import InteractiveScene from "@/components/InteractiveScene";
+import FeedbackArea from "@/components/FeedbackArea";
 
 const STEP_COLORS = ["#ff6b35", "#2a9df4", "#4ec76d", "#ffc73d"];
 
@@ -39,7 +40,8 @@ export default async function Page({ params }) {
         </div>
       </nav>
 
-      <article className="max-w-3xl mx-auto bg-white rounded-3xl shadow-md overflow-hidden border-2 border-[var(--color-hoda-orange)]/20">
+      <div className="rsb-content">
+      <article className="bg-white rounded-3xl shadow-md overflow-hidden border-2 border-[var(--color-hoda-orange)]/20">
         {/* Branded top strip */}
         <div className="px-8 md:px-10 py-3 flex items-center justify-between"
              style={{ background: "var(--color-hoda-orange)" }}>
@@ -139,6 +141,8 @@ export default async function Page({ params }) {
           </div>
         </div>
       </article>
+        <FeedbackArea slug={slug} number={number} title={title} />
+      </div>
     </main>
   );
 }

@@ -1,4 +1,5 @@
 import "./globals.css";
+import FeedbackToggle from "@/components/FeedbackToggle";
 
 export const metadata = {
   title: "Roblox Studio Book",
@@ -16,7 +17,10 @@ export default function RootLayout({ children }) {
           rel="stylesheet"
         />
       </head>
-      <body>{children}</body>
+      <body>
+        {children}
+        <FeedbackToggle />
+      </body>
     </html>
   );
 }
