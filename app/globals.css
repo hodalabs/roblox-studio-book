@@ -1,0 +1,41 @@
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fredoka", system-ui, sans-serif;
+  --font-body: "Nunito", system-ui, sans-serif;
+  --color-cream: #fff8e7;
+  --color-ink: #1a1f2c;
+  --color-hoda-orange: #ff6b35;
+  --color-hoda-blue: #2a9df4;
+  --color-hoda-yellow: #ffc73d;
+  --color-hoda-green: #4ec76d;
+  --color-hoda-purple: #a06cd5;
+}
+
+html, body {
+  background: var(--color-cream);
+  color: var(--color-ink);
+  font-family: var(--font-body);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+
+@page {
+  size: A4;
+  margin: 0;
+}
+
+@media print {
+  html, body {
+    background: white;
+  }
+  .page-break {
+    page-break-after: always;
+    break-after: page;
+  }
+  .no-print {
+    display: none !important;
+  }
+}
