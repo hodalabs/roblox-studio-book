@@ -58,7 +58,7 @@ body[data-feedback-mode="on"] .feedback-rail {
 }
 
 @page {
-  size: A4;
+  size: 148mm 210mm;
   margin: 0;
 }
 
