@@ -5,7 +5,7 @@ import Scene3D from "./Scene3D";
 /**
  * Wraps Scene3D with a Play/Replay button when the scene includes an animated player.
  */
-export default function InteractiveScene({ scene }) {
+export default function InteractiveScene({ scene, height = "480px" }) {
   const [playing, setPlaying] = useState(false);
   const [hasPlayed, setHasPlayed] = useState(false);
 
@@ -36,7 +36,7 @@ export default function InteractiveScene({ scene }) {
         background={scene.background || "#eaf4ff"}
         cameraPosition={scene.cameraPosition}
         target={scene.target}
-        height="480px"
+        height={height}
       />
       {scene.player && scene.player.timeline && scene.player.timeline.length > 1 && (
         <div className="absolute bottom-4 left-4 flex gap-2 no-print">

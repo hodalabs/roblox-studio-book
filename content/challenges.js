@@ -10,7 +10,7 @@ const FLOOR = "#cfd5dc";
 const STONE = "#9aa3ad";
 const WOOD = "#8b5a2b";
 
-// Jay's review notes — pulled from Supabase 2026-05-07. Snapshot, baked in for review.
+// Jay's review notes. Pulled from Supabase 2026-05-07. Snapshot, baked in for review.
 // `verdict`: fine | tweak | broken | confusing | cut
 const JAY_FEEDBACK = {
   "spawn-room": {
@@ -75,7 +75,7 @@ const JAY_FEEDBACK = {
   },
   "paper-bridge": {
     verdict: "confusing",
-    note: "This is also confusing — not sure what \"find it from the side, walk across\" means. Plus the previous feedback I had on the bridge thing.",
+    note: "This is also confusing. Not sure what \"find it from the side, walk across\" means. Plus the previous feedback I had on the bridge thing.",
   },
   "giant-door": {
     verdict: "tweak",
@@ -119,7 +119,7 @@ const JAY_FEEDBACK = {
   },
   "sounds": {
     verdict: "cut",
-    note: "I would teach them how to add music to the game, which is done by adding a sound from the toolbox in SoundService, then set the looped and playing property to true. That has to be done here too — the looped and playing property — so this has to be explained better. Where do you get the sound? Why are we introducing SoundIds? etc.",
+    note: "I would teach them how to add music to the game, which is done by adding a sound from the toolbox in SoundService, then set the looped and playing property to true. That has to be done here too. The looped and playing property. So this has to be explained better. Where do you get the sound? Why are we introducing SoundIds? etc.",
   },
   "polish-pass": {
     verdict: "tweak",
@@ -171,7 +171,7 @@ const _challenges = [
     steps: [
       "Build a hallway out the door.",
       "Add a trampoline, a conveyor, and an escalator in a row.",
-      "Use AssemblyLinearVelocity for all three.",
+      "Make each one look different. Neon orange, gray metal, gray ramp.",
     ],
     doneWhen: "You run through all three without falling.",
     scene: {
@@ -1004,12 +1004,419 @@ const _challenges = [
       player: player([-2.5, 0.2, 2]),
     },
   },
+  // ----- 3D model builds (added 2026-05-07) -----
+  {
+    number: 100,
+    slug: "lollipop",
+    title: "Lollipop",
+    story: "A candy on a stick.",
+    steps: [
+      "Place a thin tan cylinder standing up. The stick.",
+      "On top, place a red sphere. The candy.",
+      "Try a different color or material for variety.",
+    ],
+    doneWhen: "It looks like a lollipop you'd put in your mouth.",
+    scene: {
+      cameraPosition: [4, 3.5, 5],
+      target: [0, 1.8, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], material: "grass" },
+        { shape: "cylinder", position: [0, 1.4, 0], size: [0.3, 2.6, 0.3], color: "#d4a574", material: "wood" },
+        { shape: "sphere", position: [0, 3.2, 0], size: [1.6, 1.6, 1.6], color: "#e63946", material: "plastic" },
+      ],
+    },
+  },
+  {
+    number: 101,
+    slug: "apple",
+    title: "Apple",
+    story: "An apple. With one little leaf.",
+    steps: [
+      "Place a red sphere. The apple body.",
+      "Add a small brown cylinder on top. The stem.",
+      "Add a tiny green cone beside the stem. The leaf.",
+    ],
+    doneWhen: "Looks like an apple from a kid's drawing.",
+    scene: {
+      cameraPosition: [3.5, 3, 4],
+      target: [0, 1.2, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [4, 0.4, 4], material: "grass" },
+        { shape: "sphere", position: [0, 1.2, 0], size: [1.6, 1.6, 1.6], color: "#e63946", material: "plastic" },
+        { shape: "cylinder", position: [0, 2.15, 0], size: [0.18, 0.5, 0.18], color: "#5b3a1f", material: "wood" },
+        { shape: "cone", position: [0.35, 2.25, 0], size: [0.4, 0.5, 0.4], color: "#4ec76d", material: "plastic", rotation: [0, 0, -0.7] },
+      ],
+    },
+  },
+  {
+    number: 102,
+    slug: "mushroom",
+    title: "Mushroom",
+    story: "A storybook mushroom with a spotted cap.",
+    steps: [
+      "Place a white cylinder. The stem.",
+      "On top, add a red sphere flattened on Y. The cap.",
+      "Add 4 small white spheres on the cap. The spots.",
+    ],
+    doneWhen: "Looks like Mario's mushroom.",
+    scene: {
+      cameraPosition: [4, 3.5, 5],
+      target: [0, 1.8, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], material: "grass" },
+        { shape: "cylinder", position: [0, 1.2, 0], size: [0.9, 2.2, 0.9], color: "#fff8e7", material: "plastic" },
+        { shape: "sphere", position: [0, 2.7, 0], size: [2.4, 1.6, 2.4], color: "#e63946", material: "plastic" },
+        { shape: "sphere", position: [-0.7, 3.05, 0.5], size: [0.35, 0.35, 0.35], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [0.6, 3.15, 0.4], size: [0.3, 0.3, 0.3], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [0.2, 3.0, -0.7], size: [0.32, 0.32, 0.32], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [-0.4, 3.1, -0.3], size: [0.28, 0.28, 0.28], color: "#ffffff", material: "plastic" },
+      ],
+    },
+  },
+  {
+    number: 103,
+    slug: "ice-cream-cone",
+    title: "Ice Cream Cone",
+    story: "One scoop of ice cream.",
+    steps: [
+      "Place a tan cone, point down. The cone.",
+      "On top, add a sphere. Your scoop. Pick any flavor.",
+      "Optional: add a second scoop on top of the first.",
+    ],
+    doneWhen: "It looks edible.",
+    scene: {
+      cameraPosition: [3.5, 3.5, 4.5],
+      target: [0, 1.8, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [4, 0.4, 4], material: "grass" },
+        { shape: "cone", position: [0, 1.2, 0], size: [1.4, 2.0, 1.4], color: "#d4a574", material: "wood", rotation: [Math.PI, 0, 0] },
+        { shape: "sphere", position: [0, 2.8, 0], size: [1.5, 1.5, 1.5], color: "#f9bcd4", material: "plastic" },
+      ],
+    },
+  },
+  {
+    number: 104,
+    slug: "strawberry",
+    title: "Strawberry",
+    story: "Red, sweet, with a green crown.",
+    steps: [
+      "Place a red sphere, slightly squashed (smaller Y).",
+      "On top, add a green cone or wedge. The leafy crown.",
+      "Place 5 tiny yellow blocks on the body. The seeds.",
+    ],
+    doneWhen: "It's a strawberry. Resist the urge to bite.",
+    scene: {
+      cameraPosition: [3.5, 3, 4],
+      target: [0, 1.2, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [4, 0.4, 4], material: "grass" },
+        { shape: "sphere", position: [0, 1.2, 0], size: [1.7, 1.4, 1.7], color: "#e63946", material: "plastic" },
+        { shape: "cone", position: [0, 2.05, 0], size: [1.4, 0.5, 1.4], color: "#4ec76d", material: "plastic" },
+        { position: [0.45, 1.45, 0.4], size: [0.12, 0.12, 0.12], color: "#ffe066", material: "plastic" },
+        { position: [-0.35, 1.55, 0.5], size: [0.12, 0.12, 0.12], color: "#ffe066", material: "plastic" },
+        { position: [0.0, 1.4, 0.7], size: [0.12, 0.12, 0.12], color: "#ffe066", material: "plastic" },
+        { position: [0.5, 1.3, -0.3], size: [0.12, 0.12, 0.12], color: "#ffe066", material: "plastic" },
+        { position: [-0.5, 1.4, -0.2], size: [0.12, 0.12, 0.12], color: "#ffe066", material: "plastic" },
+      ],
+    },
+  },
+  {
+    number: 105,
+    slug: "tree",
+    title: "Tree",
+    story: "A simple tree to put in your park.",
+    steps: [
+      "Place a brown cylinder standing tall. The trunk.",
+      "On top, add a big green sphere. The leaves.",
+      "Optional: add 2 more smaller green spheres around it.",
+    ],
+    doneWhen: "It looks like a tree.",
+    scene: {
+      cameraPosition: [4, 4.5, 6],
+      target: [0, 2.5, 0],
+      background: "#eaf4ff",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], material: "grass" },
+        { shape: "cylinder", position: [0, 1.5, 0], size: [0.7, 3.0, 0.7], color: "#5b3a1f", material: "wood" },
+        { shape: "sphere", position: [0, 3.7, 0], size: [2.4, 2.4, 2.4], color: "#4ec76d", material: "grass" },
+        { shape: "sphere", position: [-1.1, 3.2, 0.3], size: [1.3, 1.3, 1.3], color: "#3fa658", material: "grass" },
+        { shape: "sphere", position: [1.0, 3.4, -0.3], size: [1.2, 1.2, 1.2], color: "#5dd17a", material: "grass" },
+      ],
+    },
+  },
+  {
+    number: 106,
+    slug: "flower",
+    title: "Flower",
+    story: "A flower with petals.",
+    steps: [
+      "Place a green cylinder. The stem.",
+      "On top, place a yellow sphere. The center.",
+      "Around the center, add 5 colored spheres. The petals.",
+    ],
+    doneWhen: "Flower. Bonus points if it's bright.",
+    scene: {
+      cameraPosition: [3.5, 4, 4.5],
+      target: [0, 2.0, 0],
+      background: "#eaf4ff",
+      blocks: [
+        { position: [0, 0, 0], size: [4, 0.4, 4], material: "grass" },
+        { shape: "cylinder", position: [0, 1.2, 0], size: [0.18, 2.4, 0.18], color: "#4ec76d", material: "grass" },
+        { shape: "sphere", position: [0, 2.6, 0], size: [0.6, 0.6, 0.6], color: "#ffc73d", material: "plastic" },
+        { shape: "sphere", position: [0.65, 2.6, 0], size: [0.55, 0.55, 0.55], color: "#ff6b9d", material: "plastic" },
+        { shape: "sphere", position: [0.2, 2.6, 0.62], size: [0.55, 0.55, 0.55], color: "#ff6b9d", material: "plastic" },
+        { shape: "sphere", position: [-0.55, 2.6, 0.4], size: [0.55, 0.55, 0.55], color: "#ff6b9d", material: "plastic" },
+        { shape: "sphere", position: [-0.55, 2.6, -0.4], size: [0.55, 0.55, 0.55], color: "#ff6b9d", material: "plastic" },
+        { shape: "sphere", position: [0.2, 2.6, -0.62], size: [0.55, 0.55, 0.55], color: "#ff6b9d", material: "plastic" },
+      ],
+    },
+  },
+  {
+    number: 107,
+    slug: "snowman",
+    title: "Snowman",
+    story: "Three snowballs, two eyes, a carrot nose.",
+    steps: [
+      "Stack 3 white spheres. Biggest at the bottom.",
+      "Add 2 small black spheres on the top sphere. The eyes.",
+      "Add a small orange cone where the nose goes.",
+    ],
+    doneWhen: "He's got a personality.",
+    scene: {
+      cameraPosition: [4, 4.5, 6],
+      target: [0, 2.5, 0],
+      background: "#eaf4ff",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], material: "ice" },
+        { shape: "sphere", position: [0, 1.2, 0], size: [2.0, 2.0, 2.0], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [0, 2.9, 0], size: [1.5, 1.5, 1.5], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [0, 4.2, 0], size: [1.1, 1.1, 1.1], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [-0.22, 4.4, 0.45], size: [0.13, 0.13, 0.13], color: "#1a1f2c", material: "plastic" },
+        { shape: "sphere", position: [0.22, 4.4, 0.45], size: [0.13, 0.13, 0.13], color: "#1a1f2c", material: "plastic" },
+        { shape: "cone", position: [0, 4.15, 0.55], size: [0.18, 0.5, 0.18], color: "#ff6b35", material: "plastic", rotation: [Math.PI / 2, 0, 0] },
+      ],
+    },
+  },
+  {
+    number: 108,
+    slug: "pizza-slice",
+    title: "Pizza Slice",
+    story: "One slice. Cheese only or pepperoni.",
+    steps: [
+      "Place a yellow wedge (rotated block). The slice base.",
+      "On top, add a red wedge. The tomato sauce.",
+      "Add 3 small red cylinders on top. Pepperoni.",
+    ],
+    doneWhen: "You can almost smell it.",
+    scene: {
+      cameraPosition: [3.5, 3.5, 4.5],
+      target: [0, 0.6, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [4, 0.4, 4], color: "#f5f1e6", material: "slate" },
+        { position: [0, 0.5, 0], size: [3, 0.3, 1.5], color: "#ffc73d", material: "plastic", rotation: [0, 0.3, 0] },
+        { position: [0, 0.72, 0], size: [2.6, 0.1, 1.3], color: "#e85500", material: "plastic", rotation: [0, 0.3, 0] },
+        { shape: "cylinder", position: [-0.6, 0.85, 0.2], size: [0.3, 0.1, 0.3], color: "#a02525", material: "plastic" },
+        { shape: "cylinder", position: [0.4, 0.85, -0.1], size: [0.3, 0.1, 0.3], color: "#a02525", material: "plastic" },
+        { shape: "cylinder", position: [0.7, 0.85, 0.4], size: [0.3, 0.1, 0.3], color: "#a02525", material: "plastic" },
+      ],
+    },
+  },
+  {
+    number: 109,
+    slug: "crown",
+    title: "Crown",
+    story: "A king's crown. Or a queen's.",
+    steps: [
+      "Place a yellow cylinder. The ring.",
+      "Add 5 wedges sticking up around the top.",
+      "Place a small sphere on each wedge tip. The jewels.",
+    ],
+    doneWhen: "Royal.",
+    scene: {
+      cameraPosition: [4, 3, 5],
+      target: [0, 1.0, 0],
+      background: "#1a1f2c",
+      blocks: [
+        { position: [0, 0, 0], size: [4, 0.4, 4], color: "#3f4853", material: "marble" },
+        { shape: "cylinder", position: [0, 0.7, 0], size: [2.4, 0.9, 2.4], color: "#ffc73d", material: "neon" },
+        { shape: "cone", position: [0, 1.55, 1.05], size: [0.5, 0.9, 0.5], color: "#ffc73d", material: "neon" },
+        { shape: "cone", position: [1.0, 1.55, 0.32], size: [0.5, 0.9, 0.5], color: "#ffc73d", material: "neon" },
+        { shape: "cone", position: [0.62, 1.55, -0.85], size: [0.5, 0.9, 0.5], color: "#ffc73d", material: "neon" },
+        { shape: "cone", position: [-0.62, 1.55, -0.85], size: [0.5, 0.9, 0.5], color: "#ffc73d", material: "neon" },
+        { shape: "cone", position: [-1.0, 1.55, 0.32], size: [0.5, 0.9, 0.5], color: "#ffc73d", material: "neon" },
+        { shape: "sphere", position: [0, 2.15, 1.05], size: [0.3, 0.3, 0.3], color: "#e63946", material: "neon" },
+        { shape: "sphere", position: [1.0, 2.15, 0.32], size: [0.3, 0.3, 0.3], color: "#2a9df4", material: "neon" },
+        { shape: "sphere", position: [0.62, 2.15, -0.85], size: [0.3, 0.3, 0.3], color: "#4ec76d", material: "neon" },
+        { shape: "sphere", position: [-0.62, 2.15, -0.85], size: [0.3, 0.3, 0.3], color: "#a06cd5", material: "neon" },
+        { shape: "sphere", position: [-1.0, 2.15, 0.32], size: [0.3, 0.3, 0.3], color: "#ff6b9d", material: "neon" },
+      ],
+    },
+  },
+  {
+    number: 110,
+    slug: "birthday-cake",
+    title: "Birthday Cake",
+    story: "Cake. Candles. Make a wish.",
+    steps: [
+      "Stack 3 cylinders. Each one smaller than the one below.",
+      "On top, add 5 thin tall cylinders. The candles.",
+      "On each candle, add a small neon sphere. The flame.",
+    ],
+    doneWhen: "Happy birthday.",
+    scene: {
+      cameraPosition: [4, 4, 5],
+      target: [0, 1.8, 0],
+      background: "#fff8e7",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], color: "#f5f1e6", material: "slate" },
+        { shape: "cylinder", position: [0, 0.7, 0], size: [2.6, 1.0, 2.6], color: "#f9bcd4", material: "plastic" },
+        { shape: "cylinder", position: [0, 1.7, 0], size: [2.0, 0.8, 2.0], color: "#ffffff", material: "plastic" },
+        { shape: "cylinder", position: [0, 2.55, 0], size: [1.4, 0.7, 1.4], color: "#f9bcd4", material: "plastic" },
+        { shape: "cylinder", position: [-0.4, 3.2, 0], size: [0.12, 0.6, 0.12], color: "#ffffff", material: "plastic" },
+        { shape: "cylinder", position: [0.4, 3.2, 0], size: [0.12, 0.6, 0.12], color: "#ffffff", material: "plastic" },
+        { shape: "cylinder", position: [0, 3.2, 0.4], size: [0.12, 0.6, 0.12], color: "#ffffff", material: "plastic" },
+        { shape: "cylinder", position: [0, 3.2, -0.4], size: [0.12, 0.6, 0.12], color: "#ffffff", material: "plastic" },
+        { shape: "sphere", position: [-0.4, 3.55, 0], size: [0.18, 0.22, 0.18], color: "#ffe066", material: "neon" },
+        { shape: "sphere", position: [0.4, 3.55, 0], size: [0.18, 0.22, 0.18], color: "#ffe066", material: "neon" },
+        { shape: "sphere", position: [0, 3.55, 0.4], size: [0.18, 0.22, 0.18], color: "#ffe066", material: "neon" },
+        { shape: "sphere", position: [0, 3.55, -0.4], size: [0.18, 0.22, 0.18], color: "#ffe066", material: "neon" },
+      ],
+    },
+  },
+  {
+    number: 111,
+    slug: "rocket",
+    title: "Rocket",
+    story: "A rocket on the launch pad.",
+    steps: [
+      "Place a tall white cylinder. The body.",
+      "Top it with a red cone. The nose.",
+      "Add 3 thin wedges around the base. The fins.",
+    ],
+    doneWhen: "Ready for liftoff.",
+    scene: {
+      cameraPosition: [4.5, 4.5, 6],
+      target: [0, 2.5, 0],
+      background: "#1a1f2c",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], color: "#3f4853", material: "metal" },
+        { shape: "cylinder", position: [0, 2.2, 0], size: [1.0, 4.0, 1.0], color: "#ffffff", material: "plastic" },
+        { shape: "cone", position: [0, 4.7, 0], size: [1.0, 1.0, 1.0], color: "#e63946", material: "plastic" },
+        { position: [0.7, 0.7, 0], size: [0.2, 1.4, 0.6], color: "#e63946", material: "plastic", rotation: [0, 0, -0.4] },
+        { position: [-0.7, 0.7, 0], size: [0.2, 1.4, 0.6], color: "#e63946", material: "plastic", rotation: [0, 0, 0.4] },
+        { position: [0, 0.7, -0.7], size: [0.6, 1.4, 0.2], color: "#e63946", material: "plastic", rotation: [0.4, 0, 0] },
+        { shape: "sphere", position: [0, 2.5, 0.55], size: [0.5, 0.5, 0.5], color: "#2a9df4", material: "plastic", reflectance: 0.5 },
+      ],
+    },
+  },
+  {
+    number: 112,
+    slug: "robot",
+    title: "Robot",
+    story: "A boxy robot. Bring it to life later.",
+    steps: [
+      "Place a cube. The body.",
+      "On top, a smaller cube. The head.",
+      "Add 2 cylinders for arms and 2 for legs.",
+      "Add 2 small neon spheres for eyes.",
+    ],
+    doneWhen: "Beep boop.",
+    scene: {
+      cameraPosition: [4, 4, 5],
+      target: [0, 2.0, 0],
+      background: "#eaf4ff",
+      blocks: [
+        { position: [0, 0, 0], size: [5, 0.4, 5], color: "#f5f1e6", material: "slate" },
+        { position: [0, 1.8, 0], size: [1.6, 1.8, 1.0], color: "#9aa3ad", material: "metal" },
+        { position: [0, 3.2, 0], size: [1.2, 1.0, 1.0], color: "#9aa3ad", material: "metal" },
+        { shape: "cylinder", position: [-1.15, 1.9, 0], size: [0.3, 1.6, 0.3], color: "#9aa3ad", material: "metal" },
+        { shape: "cylinder", position: [1.15, 1.9, 0], size: [0.3, 1.6, 0.3], color: "#9aa3ad", material: "metal" },
+        { shape: "cylinder", position: [-0.4, 0.55, 0], size: [0.4, 1.0, 0.4], color: "#9aa3ad", material: "metal" },
+        { shape: "cylinder", position: [0.4, 0.55, 0], size: [0.4, 1.0, 0.4], color: "#9aa3ad", material: "metal" },
+        { shape: "sphere", position: [-0.25, 3.3, 0.5], size: [0.18, 0.18, 0.18], color: "#ff6b35", material: "neon" },
+        { shape: "sphere", position: [0.25, 3.3, 0.5], size: [0.18, 0.18, 0.18], color: "#ff6b35", material: "neon" },
+      ],
+    },
+  },
+  {
+    number: 113,
+    slug: "house",
+    title: "House",
+    story: "A simple house. Door, roof, two windows.",
+    steps: [
+      "Place a cube. The house body.",
+      "On top, add a wedge. The roof.",
+      "Add a small brown rectangle on the front. The door.",
+      "Add 2 small transparent squares on either side of the door. The windows.",
+    ],
+    doneWhen: "You could draw smoke from the chimney.",
+    scene: {
+      cameraPosition: [5, 4.5, 6],
+      target: [0, 2.0, 0],
+      background: "#eaf4ff",
+      blocks: [
+        { position: [0, 0, 0], size: [6, 0.4, 6], material: "grass" },
+        { position: [0, 1.5, 0], size: [3, 3, 3], color: "#f5e1c0", material: "brick" },
+        { position: [0, 3.6, 0], size: [3.4, 1.4, 3.4], color: "#a8423a", material: "slate", rotation: [0, 0, Math.PI / 4] },
+        { position: [0, 1.0, 1.51], size: [0.7, 1.5, 0.05], color: "#5b3a1f", material: "wood" },
+        { position: [-0.9, 2.0, 1.52], size: [0.55, 0.55, 0.05], color: "#cfe6f5", transparency: 0.4 },
+        { position: [0.9, 2.0, 1.52], size: [0.55, 0.55, 0.05], color: "#cfe6f5", transparency: 0.4 },
+      ],
+    },
+  },
 ];
 
-export const challenges = _challenges.map((c) => ({
-  ...c,
-  feedback: JAY_FEEDBACK[c.slug] || null,
-}));
+// The printed book order (2026-05-07): obby-building interleaved with 3D model
+// builds. 14 problematic pages from the original 30 were cut (broken, confusing,
+// or coding). 14 model challenges were added in their place. Coding gets a
+// single back-page teaser to roblox-studio-typer.
+const BOOK_ORDER = [
+  "spawn-room",
+  "lollipop",
+  "apple",
+  "show-off-three",
+  "mushroom",
+  "fake-wall",
+  "ice-cream-cone",
+  "the-window",
+  "strawberry",
+  "material-gallery",
+  "tree",
+  "glass-house",
+  "flower",
+  "stained-glass",
+  "snowman",
+  "treasure-room",
+  "pizza-slice",
+  "lava-pit",
+  "crown",
+  "glowing-path",
+  "birthday-cake",
+  "giant-door",
+  "rocket",
+  "decorations",
+  "robot",
+  "house",
+  "finish-line",
+  "polish-pass",
+  "publish",
+];
+
+export const challenges = BOOK_ORDER.map((slug, i) => {
+  const c = _challenges.find((x) => x.slug === slug);
+  if (!c) throw new Error(`Missing challenge in _challenges: ${slug}`);
+  return {
+    ...c,
+    number: i + 1,
+    feedback: JAY_FEEDBACK[c.slug] || null,
+  };
+});
 
 export function getChallenge(slug) {
   return challenges.find((c) => c.slug === slug);

@@ -1,4 +1,6 @@
-export default function ChallengePage({ challenge }) {
+import InteractiveScene from "./InteractiveScene";
+
+export default function ChallengePage({ challenge, total, live = false }) {
   const { number, title, story, slug, steps = [], doneWhen, scene } = challenge;
 
   return (
@@ -10,7 +12,7 @@ export default function ChallengePage({ challenge }) {
         <span className="text-[10pt] font-black uppercase tracking-widest text-[var(--color-hoda-orange)]">
           Level {String(number).padStart(2, "0")}
         </span>
-        <span className="text-[8pt] text-neutral-300 font-bold">{number} / 30</span>
+        <span className="text-[8pt] text-neutral-300 font-bold">{number} / {total}</span>
       </header>
 
       <h1 className="text-[34pt] font-black leading-[1.05] tracking-tight">{title}</h1>
@@ -25,11 +27,15 @@ export default function ChallengePage({ challenge }) {
             height: "95mm",
           }}
         >
-          <img
-            src={`/scenes/${slug}.png`}
-            alt={title}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
-          />
+          {live ? (
+            <InteractiveScene scene={scene} height="95mm" />
+          ) : (
+            <img
+              src={`/scenes/${slug}.png`}
+              alt={title}
+              style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            />
+          )}
         </div>
       ) : (
         <div

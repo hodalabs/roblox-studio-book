@@ -5,18 +5,20 @@ export default function CoverPage() {
       style={{
         width: "148mm",
         height: "210mm",
-        background: "var(--color-hoda-orange)",
+        background: "#0f1624",
         padding: "18mm 14mm",
         color: "white",
-        boxShadow: "0 1px 4px rgba(0,0,0,0.08)",
       }}
     >
-      <div className="font-display font-bold tracking-[0.35em] uppercase text-[10pt] opacity-85">
-        Hoda Labs
+      <div
+        className="font-display font-bold tracking-[0.35em] uppercase text-[10pt]"
+        style={{ color: "var(--color-hoda-blue)" }}
+      >
+        Hoda Computer
       </div>
 
       <div className="flex flex-col items-center text-center">
-        <div className="font-display font-bold text-[18pt] tracking-[0.3em] uppercase mb-4 opacity-90">
+        <div className="font-display font-bold text-[18pt] tracking-[0.3em] uppercase mb-4 opacity-70">
           30 Days of
         </div>
         <h1 className="font-display font-bold text-[64pt] leading-[0.92] tracking-tight uppercase">
@@ -40,7 +42,7 @@ export default function CoverPage() {
           />
         </div>
 
-        <p className="text-[15pt] font-display font-medium leading-snug max-w-[100mm]">
+        <p className="text-[15pt] font-display font-medium leading-snug max-w-[100mm] opacity-85">
           Build your first real game,
           <br />
           one block at a time.

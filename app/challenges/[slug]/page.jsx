@@ -49,7 +49,7 @@ export default async function Page({ params }) {
             Roblox Studio Book
           </span>
           <span className="font-display font-bold text-white text-sm">
-            Page {number} of 30
+            Page {number} of {challenges.length}
           </span>
         </div>
 
@@ -129,7 +129,7 @@ export default async function Page({ params }) {
             hoda labs
           </span>
           <div className="flex gap-1">
-            {Array.from({ length: 30 }).map((_, i) => (
+            {Array.from({ length: challenges.length }).map((_, i) => (
               <span
                 key={i}
                 className="w-1.5 h-1.5 rounded-full"

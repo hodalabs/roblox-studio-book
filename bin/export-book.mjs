@@ -33,8 +33,8 @@ await new Promise((r) => setTimeout(r, 2500));
 console.log(`Writing ${OUT}`);
 await page.pdf({
   path: OUT,
-  width: "148mm",
-  height: "210mm",
+  width: "152mm",
+  height: "214mm",
   printBackground: true,
   margin: { top: 0, right: 0, bottom: 0, left: 0 },
   preferCSSPageSize: false,

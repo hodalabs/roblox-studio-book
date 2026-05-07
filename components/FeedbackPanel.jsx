@@ -102,7 +102,7 @@ export default function FeedbackPanel({ slug, challengeNumber, challengeTitle })
       </div>
       <div className="p-5 flex-1 flex flex-col">
         <p className="text-xs text-neutral-400 mb-2 italic">
-          Level {String(challengeNumber).padStart(2, "0")} — {challengeTitle}
+          Level {String(challengeNumber).padStart(2, "0")}: {challengeTitle}
         </p>
         {status === "error" && errorMsg && (
           <div className="mb-2 p-2 rounded-lg bg-orange-50 border border-orange-200 text-xs text-orange-800">
