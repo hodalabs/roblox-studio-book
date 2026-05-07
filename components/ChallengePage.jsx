@@ -1,7 +1,5 @@
-import RobloxScene from "./RobloxScene";
-
 export default function ChallengePage({ challenge }) {
-  const { number, title, story, steps = [], doneWhen, scene } = challenge;
+  const { number, title, story, slug, steps = [], doneWhen, scene } = challenge;
 
   return (
     <article
@@ -20,18 +18,17 @@ export default function ChallengePage({ challenge }) {
 
       {scene && scene.blocks ? (
         <div
-          className="rounded-2xl overflow-hidden mb-3 flex items-center justify-center"
+          className="rounded-2xl overflow-hidden mb-3"
           style={{
             background: scene.background || "#eaf4ff",
             flex: "0 0 auto",
             height: "95mm",
           }}
         >
-          <RobloxScene
-            blocks={scene.blocks}
-            annotations={scene.annotations || []}
-            scale={scene.scale || 24}
-            background={scene.background || "#eaf4ff"}
+          <img
+            src={`/scenes/${slug}.png`}
+            alt={title}
+            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
           />
         </div>
       ) : (

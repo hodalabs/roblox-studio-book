@@ -10,7 +10,132 @@ const FLOOR = "#cfd5dc";
 const STONE = "#9aa3ad";
 const WOOD = "#8b5a2b";
 
-export const challenges = [
+// Jay's review notes — pulled from Supabase 2026-05-07. Snapshot, baked in for review.
+// `verdict`: fine | tweak | broken | confusing | cut
+const JAY_FEEDBACK = {
+  "spawn-room": {
+    verdict: "fine",
+    note: "The build is fine, we could probably reiterate on this in the future by adding a point light or a light source in the neon block itself, and change its properties.",
+  },
+  "show-off-three": {
+    verdict: "fine",
+    note: "This is also fine.",
+  },
+  "fake-wall": {
+    verdict: "fine",
+    note: "This is fine too.",
+  },
+  "the-window": {
+    verdict: "fine",
+    note: "This is fine too.",
+  },
+  "ghost-door": {
+    verdict: "broken",
+    note: "This visually doesn't make a difference? It's the same as if the part isn't there, unless you meant to make it CanCollide = true?",
+  },
+  "hall-of-mirrors": {
+    verdict: "broken",
+    note: "You won't be able to see yourself with the reflectance property, and it's something that's rarely used in games. However for slight visual effects it's fine, reflectance usually reflects the skybox and that's it.",
+  },
+  "material-gallery": {
+    verdict: "tweak",
+    note: "This is fine, just might be visually misleading because in Roblox the output won't be the same.",
+  },
+  "glass-house": {
+    verdict: "fine",
+    note: "This is fine.",
+  },
+  "stained-glass": {
+    verdict: "fine",
+    note: "This is fine too.",
+  },
+  "ice-slide": {
+    verdict: "broken",
+    note: "You won't slide down just because the block's material is ice.",
+  },
+  "treasure-room": {
+    verdict: "tweak",
+    note: "This is alright, I would probably make the gold Neon and a dark yellow color, it looks more cartoonish and better.",
+  },
+  "lava-pit": {
+    verdict: "fine",
+    note: "This is fine, I suppose coding on this part will be done later.",
+  },
+  "glowing-path": {
+    verdict: "tweak",
+    note: "This is fine too, it might be confusing for them to what Lighting is. I'd add a visual of the explorer tab to show them + a visual of the properties tab to find brightness.",
+  },
+  "precise-bridge": {
+    verdict: "confusing",
+    note: "This is confusing. I'm not sure myself how this would work. The distance between the 2 blocks is not specified, maybe ask them to change to a specific position, but even then this is a big jump from what was being done previously. Should add filler lessons in between where you teach them how to change size and position using the properties tab.",
+  },
+  "tilted-tower": {
+    verdict: "confusing",
+    note: "This is a bit confusing and a big jump again in my opinion. There should be some practice with changing things from the properties tab first.",
+  },
+  "paper-bridge": {
+    verdict: "confusing",
+    note: "This is also confusing — not sure what \"find it from the side, walk across\" means. Plus the previous feedback I had on the bridge thing.",
+  },
+  "giant-door": {
+    verdict: "tweak",
+    note: "This is better, would add a visual of where to find the Size property.",
+  },
+  "decorations": {
+    verdict: "tweak",
+    note: "This is getting a bit repetitive but it's alright. I guess it's slight practice. The visuals aren't so pleasing though, should probably come up with a better layout.",
+  },
+  "first-script": {
+    verdict: "cut",
+    note: "This is alright, however the Output is a very overwhelming tool to enable, it's a lot of unnecessary text. Sometimes the print gets lost in other things in the output, so we should probably come up with a better first script.\n\nscript.Parent.Transparency = 0.5\nscript.Parent.BrickColor = BrickColor.new(\"Really red\")\nscript.Parent.BrickColor = BrickColor.Random()\n\nHere are better options.",
+  },
+  "auto-color": {
+    verdict: "cut",
+    note: "Start with BrickColor, then introduce the 3-parameter RGB type Color3.new().",
+  },
+  "kill-brick": {
+    verdict: "cut",
+    note: "This is a really big jump, too complex even. It will just be a copy paste type / I don't know what's happening type of situation. Unless that's alright. These instructions are not clear, should add code that they can copy and paste probably.",
+  },
+  "real-lava": {
+    verdict: "cut",
+    note: "That's alright.",
+  },
+  "disappearing-platform": {
+    verdict: "cut",
+    note: "Still a bit complex, would have to include copy paste code. CanCollide = false by script is fine.",
+  },
+  "hidden-trap": {
+    verdict: "cut",
+    note: "This is a bit confusing, maybe add color notes on the blocks to achieve what we're trying to do.",
+  },
+  "boss-room": {
+    verdict: "cut",
+    note: "We didn't really go over AssemblyLinearVelocity, that could probably be a better lesson, unless the kids already know how to do that. A disappearing platform is going to be very complicated to do. Ghost wall is fine, kill brick with copy paste code is fine.",
+  },
+  "finish-line": {
+    verdict: "fine",
+    note: "Yep this is fine.",
+  },
+  "sounds": {
+    verdict: "cut",
+    note: "I would teach them how to add music to the game, which is done by adding a sound from the toolbox in SoundService, then set the looped and playing property to true. That has to be done here too — the looped and playing property — so this has to be explained better. Where do you get the sound? Why are we introducing SoundIds? etc.",
+  },
+  "polish-pass": {
+    verdict: "tweak",
+    note: "This is fine, introduce lights (they go inside of blocks).",
+  },
+  "publish": {
+    verdict: "tweak",
+    note: "This is fine, just needs better instructions. I would make this into 3 steps: save to roblox, fill out questionnaire, go to the settings page and make it public and save.",
+  },
+  "show-your-parent": {
+    verdict: "tweak",
+    note: "They won't be able to find the link just like that either, need specific instructions on this.",
+  },
+};
+
+const _challenges = [
   {
     number: 1,
     slug: "spawn-room",
@@ -880,6 +1005,11 @@ export const challenges = [
     },
   },
 ];
+
+export const challenges = _challenges.map((c) => ({
+  ...c,
+  feedback: JAY_FEEDBACK[c.slug] || null,
+}));
 
 export function getChallenge(slug) {
   return challenges.find((c) => c.slug === slug);
